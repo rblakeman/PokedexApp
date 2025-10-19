@@ -1,59 +1,59 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 
-import Card from '@material-ui/core/Card';
-// @ts-expect-error IGNORE
+import LaunchIcon from '@mui/icons-material/Launch';
+import Card from '@mui/material/Card';
 import logo from '../logo.svg';
-import LaunchIcon from '@material-ui/icons/Launch';
 
 const styles = {
     card: {
         margin: '20px',
-        width: '400px',
+        width: '500px',
         height: '300px',
         display: 'flex',
+        gap: '20px',
         backgroundColor: '#f0f0f0',
-        flexDirection: 'row' as 'row',
-        justifyContent: 'space-evenly'
+        flexDirection: 'row' as const,
+        justifyContent: 'space-evenly',
     },
 
     logo: {
         animation: 'App-logo-spin infinite 20s linear',
         // height: '20vmin',
-        height: '100%'
+        height: '100%',
     },
 
     left: {
         width: '100%',
         display: 'flex',
-        flexDirection: 'column' as 'column',
-        alignItems: 'center'
+        flexDirection: 'column' as const,
+        alignItems: 'center',
     },
     top: {
         width: '90%',
         display: 'flex',
         justifyContent: 'space-between',
-        margin: '10px'
+        margin: '10px',
     },
     sprite: {
-        margin: '-5px 0px -5px 0px'
+        margin: '-5px 0px -5px 0px',
     },
     bottom: {
         height: '100%',
         width: '100%',
         display: 'flex',
-        flexDirection: 'column' as 'column',
+        flexDirection: 'column' as const,
         justifyContent: 'space-between',
-        margin: '0px 0px 10px 0px'
+        margin: '0px 0px 10px 0px',
     },
     // typeHeader: {
     //   fontWeight: 'bold',
     //   textAlign: 'center'
     // },
     typeList: {
-    // margin: '0px 0px 10px 0px',
+        // margin: '0px 0px 10px 0px',
         display: 'flex',
-        flexDirection: 'column' as 'column',
-        alignItems: 'center'
+        flexDirection: 'column' as const,
+        alignItems: 'center',
     },
     type: {
         width: '90px',
@@ -64,23 +64,23 @@ const styles = {
 
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
 
     right: {
         margin: '10px 0px 10px 0px',
         width: '100%',
         display: 'flex',
-        flexDirection: 'column' as 'column'
+        flexDirection: 'column' as const,
     },
     moveHeader: {
         fontWeight: 'bold',
-        textAlign: 'center' as 'center'
+        textAlign: 'center' as const,
     },
     moveList: {
-        overflow: 'scroll'
+        overflow: 'clip scroll',
     },
-    move: {}
+    move: {},
 };
 
 type Props = {
@@ -88,12 +88,13 @@ type Props = {
     number: string;
     sprite: string;
     types: string[];
-    moves: { name: string; }[];
+    moves: { name: string }[];
     height: string;
     weight: string;
     loaded: boolean;
     shrink: boolean;
 };
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 type State = {};
 
 export default class Pokemon extends Component<Props, State> {
@@ -115,23 +116,16 @@ export default class Pokemon extends Component<Props, State> {
     // }
 
     render() {
-        const {
-            name,
-            number,
-            sprite,
-            types,
-            moves,
-            height,
-            weight,
-            loaded
-        } = this.props;
+        const { name, number, sprite, types, moves, height, weight, loaded } =
+            this.props;
 
         return (
             <Card
                 style={
-                    this.props.shrink ? { ...styles.card, margin: '0px' } : styles.card
-                }
-            >
+                    this.props.shrink
+                        ? { ...styles.card, margin: '0px' }
+                        : styles.card
+                }>
                 <div style={styles.left}>
                     <div style={styles.top}>
                         <div>{this.attachPound(number)} </div>
@@ -139,7 +133,8 @@ export default class Pokemon extends Component<Props, State> {
                         <LaunchIcon
                             onClick={() => {
                                 let tempURL = `https://pokeapi.co/api/v2/pokemon/${number}/`;
-                                if (!number) tempURL = `https://pokeapi.co/api/v2/item/${name}/`;
+                                if (!number)
+                                    tempURL = `https://pokeapi.co/api/v2/item/${name}/`;
                                 window.open(tempURL, '_blank');
                             }}
                             style={{ width: '20px', height: '20px' }}
@@ -150,14 +145,18 @@ export default class Pokemon extends Component<Props, State> {
                             <img
                                 style={{ width: '150px', height: '150px' }}
                                 src={sprite}
-                                alt="pokemon sprite"
+                                alt='pokemon sprite'
                             />
                         ) : (
                             <img
                                 src={logo}
-                                className="App-logo"
-                                style={loaded ? { ...styles.logo, display: 'hidden' } : styles.logo}
-                                alt="react logo"
+                                className='App-logo'
+                                style={
+                                    loaded
+                                        ? { ...styles.logo, display: 'hidden' }
+                                        : styles.logo
+                                }
+                                alt='react logo'
                             />
                         )}
                     </div>
@@ -168,12 +167,14 @@ export default class Pokemon extends Component<Props, State> {
                                 let typeColor = '#68A090';
                                 if (e === 'normal') typeColor = '#A8A878';
                                 else if (e === 'fire') typeColor = '#F08030';
-                                else if (e === 'fighting') typeColor = '#C03028';
+                                else if (e === 'fighting')
+                                    typeColor = '#C03028';
                                 else if (e === 'water') typeColor = '#6890F0';
                                 else if (e === 'flying') typeColor = '#A890F0';
                                 else if (e === 'grass') typeColor = '#78C850';
                                 else if (e === 'poison') typeColor = '#A040A0';
-                                else if (e === 'electric') typeColor = '#F8D030';
+                                else if (e === 'electric')
+                                    typeColor = '#F8D030';
                                 else if (e === 'ground') typeColor = '#E0C068';
                                 else if (e === 'psychic') typeColor = '#F85888';
                                 else if (e === 'rock') typeColor = '#B8A038';
@@ -191,14 +192,18 @@ export default class Pokemon extends Component<Props, State> {
                                         style={
                                             i > 0
                                                 ? {
-                                                    ...styles.type,
-                                                    marginTop: '8px',
-                                                    backgroundColor: typeColor
-                                                }
-                                                : { ...styles.type, backgroundColor: typeColor }
+                                                      ...styles.type,
+                                                      marginTop: '8px',
+                                                      backgroundColor:
+                                                          typeColor,
+                                                  }
+                                                : {
+                                                      ...styles.type,
+                                                      backgroundColor:
+                                                          typeColor,
+                                                  }
                                         }
-                                        key={i}
-                                    >
+                                        key={i}>
                                         {this.firstUpper(e)}
                                     </div>
                                 );
@@ -208,9 +213,8 @@ export default class Pokemon extends Component<Props, State> {
                             style={{
                                 display: 'flex',
                                 flexDirection: 'row',
-                                justifyContent: 'space-around'
-                            }}
-                        >
+                                justifyContent: 'space-around',
+                            }}>
                             <div>Height: {height}</div>
                             <div>Weight: {weight}</div>
                         </div>
@@ -221,7 +225,9 @@ export default class Pokemon extends Component<Props, State> {
                     <div style={styles.moveList}>
                         {moves.map((elem, idx) => {
                             return (
-                                <div style={styles.move} key={idx}>
+                                <div
+                                    style={styles.move}
+                                    key={idx}>
                                     {idx}.{this.firstUpper(elem.name)}
                                 </div>
                             );

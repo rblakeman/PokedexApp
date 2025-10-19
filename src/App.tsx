@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 import './App.css';
 import Input from './components/input';
@@ -7,11 +7,11 @@ import Pokemon from './components/pokemon';
 const styles = {
     container: {
         display: 'flex',
-        flexDirection: 'column' as 'column',
-        alignItems: 'center'
+        flexDirection: 'column' as const,
+        alignItems: 'center',
     },
     title: { margin: '20px', fontSize: '24px' },
-    inputs: { padding: '10px' }
+    inputs: { padding: '10px' },
 };
 
 const LOADING_STATE = {
@@ -23,7 +23,7 @@ const LOADING_STATE = {
     stats: [],
     moves: [],
     height: '',
-    weight: ''
+    weight: '',
 };
 
 // #ee1515 red
@@ -38,9 +38,10 @@ type Stats = {
 };
 type Moves = {
     name: string;
-    version_group_details: {};
+    // version_group_details: {};
 };
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 type Props = {};
 type State = {
     loaded: boolean;
@@ -68,7 +69,7 @@ class App extends Component<Props, State> {
             ...LOADING_STATE,
             windowWidth: 0,
             windowHeight: 0,
-            shrink: false
+            shrink: false,
         };
 
         console.log('last updated: Aug 3, 2022');
@@ -91,25 +92,27 @@ class App extends Component<Props, State> {
         }
         this.setState({
             windowWidth: window.innerWidth,
-            windowHeight: window.innerHeight
+            windowHeight: window.innerHeight,
         });
     }
 
     PokeAPI(entry: string) {
         this.setState({
-            ...LOADING_STATE
+            ...LOADING_STATE,
         });
         fetch(`https://pokeapi.co/api/v2/pokemon/${entry}/`)
             .then((response) => {
                 if (!response.ok) {
-                    let failedResponses = [
+                    const failedResponses = [
                         'You missed the Pokemon!',
                         'Darn! The Pokemon broke free!',
                         'Aww! It appeared to be caught!',
-                        'Shoot! It was so close too!'
+                        'Shoot! It was so close too!',
                     ];
                     console.log(
-                        failedResponses[Math.floor(Math.random() * failedResponses.length)]
+                        failedResponses[
+                            Math.floor(Math.random() * failedResponses.length)
+                        ],
                     );
 
                     return false;
@@ -120,39 +123,38 @@ class App extends Component<Props, State> {
             .then((data) => {
                 if (!data) return;
 
-
-                let newTypes: string[] = [];
+                const newTypes: string[] = [];
                 type Type = {
-                    slot: string,
-                    type: { name: string, url: string }
+                    slot: string;
+                    type: { name: string; url: string };
                 };
                 data.types.forEach((entry: Type) => {
                     newTypes.push(entry.type.name);
                 });
 
-                let newStats: Stats[] = [];
+                const newStats: Stats[] = [];
                 type Stat = {
                     base_stat: number;
                     effort: number;
-                    stat: { name: string, url: string }
+                    stat: { name: string; url: string };
                 };
                 data.stats.forEach((entry: Stat) => {
                     newStats.push({
                         name: entry.stat.name,
                         base_stat: entry.base_stat,
-                        effort: entry.effort
+                        effort: entry.effort,
                     });
                 });
 
-                let newMoves: Moves[] = [];
+                const newMoves: Moves[] = [];
                 type Move = {
-                    move: { name: string, url: string };
-                    version_group_details: {  }[];
+                    move: { name: string; url: string };
+                    // version_group_details: {}[];
                 };
                 data.moves.forEach((entry: Move) => {
                     newMoves.push({
                         name: entry.move.name,
-                        version_group_details: entry.version_group_details
+                        // version_group_details: entry.version_group_details,
                     });
                 });
 
@@ -165,11 +167,12 @@ class App extends Component<Props, State> {
                     moves: newMoves,
                     height: data.height,
                     weight: data.weight,
-                    loaded: true
+                    loaded: true,
                 });
                 console.log(
-                    `All right! ${data.name.charAt(0).toUpperCase() +
-            data.name.substr(1)} was caught!`
+                    `All right! ${
+                        data.name.charAt(0).toUpperCase() + data.name.substr(1)
+                    } was caught!`,
                 );
             });
     }
@@ -189,20 +192,22 @@ class App extends Component<Props, State> {
                     sprite: data.sprites.default,
                     entry: '',
                     types: [],
-                    loaded: true
+                    loaded: true,
                 });
             });
     }
 
     render() {
         return (
-            <div className="App" style={styles.container}>
+            <div
+                className='App'
+                style={styles.container}>
                 {this.state.shrink ? (
                     <div
                         style={{
                             display: 'flex',
                             flexDirection: 'row',
-                            alignItems: 'center'
+                            alignItems: 'center',
                         }}>
                         <div style={{ margin: '10px', fontSize: '24px' }}>
                             Pokédex
@@ -231,7 +236,8 @@ class App extends Component<Props, State> {
                     height={this.state.height}
                     weight={this.state.weight}
                     loaded={this.state.loaded}
-                    shrink={this.state.shrink} />
+                    shrink={this.state.shrink}
+                />
             </div>
         );
     }
