@@ -1,4 +1,4 @@
-# TicTacToe
+# PokedexApp
 
 ## Getting Started
 
